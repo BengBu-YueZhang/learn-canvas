@@ -1,6 +1,7 @@
 var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var path = require('path')
+var HappyPack = require('happypack')
 
 module.exports = {
   devtool: '#cheap-module-eval-source-map',
@@ -105,8 +106,8 @@ module.exports = {
       ]
     }),
     new HtmlWebpackPlugin({
-      filename: path.resolve(__dirname, './../dist/index.html'),
-      template: path.resolve(__dirname, './../public/index.html')
+      filename: path.resolve(__dirname, './dist/index.html'),
+      template: path.resolve(__dirname, './public/index.html')
     })
   ]
 }

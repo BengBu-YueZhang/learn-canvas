@@ -1,0 +1,38 @@
+{
+  "name": "learn-canvas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BengBu-YueZhang/learn-canvas.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BengBu-YueZhang/learn-canvas/issues"
+  },
+  "homepage": "https://github.com/BengBu-YueZhang/learn-canvas#readme",
+  "devDependencies": {
+    "webpack": "^4.20.2",
+    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9",
+    "style-loader": "^0.23.1",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "file-loader": "^2.0.0",
+    "happypack": "^5.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "css-loader": "^1.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "url-loader": "^1.1.2"
+  }
+}

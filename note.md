@@ -315,7 +315,20 @@ for (let i = 0; i < 10; i++) {
 
 createLinearGradient(x1, y1, x2, y2), 设置渐变的起点终点的坐标
 
-addColorStop(pos, color), pos是0-1表示位置的百分比，color表示百分比位置的颜色
+addColorStop(pos, color), pos是0-1表示位置的百分比，color表示pos百分比位置的颜色
+
+```js
+
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+let linecolor = ctx.createLinearGradient(0, 0, 0, 200)
+linecolor.addColorStop(0, '#e3f2fd')
+linecolor.addColorStop(1, '#0d47a1')
+
+ctx.fillStyle = linecolor
+ctx.fillRect(0, 0, 200, 200)
+```
 
 #### createRadialGradient 径向渐变
 

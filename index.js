@@ -1,12 +1,9 @@
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 
+let linecolor = ctx.createLinearGradient(0, 0, 0, 200)
+linecolor.addColorStop(0, '#e3f2fd')
+linecolor.addColorStop(1, '#0d47a1')
 
-for (let i = 0; i < 10; i++) {
-  ctx.beginPath()
-  ctx.lineWidth = i + 1
-  ctx.moveTo(i * 10 + 10, 10)
-  ctx.lineTo(i * 10 + 10, 50)
-  ctx.closePath()
-  ctx.stroke()
-}
+ctx.fillStyle = linecolor
+ctx.fillRect(0, 0, 200, 200)

@@ -1,9 +1,3 @@
-## 入门
-
-Using quadratic and cubic Bezier curves can be quite challenging, because unlike vector drawing software like Adobe Illustrator, we don't have direct visual feedback as to what we're doing. This makes it pretty hard to draw complex shapes. ... If you have the time and, most of all, the patience, much more complex shapes can be created.
-
-                                                                                -- "Bezier and quadratic curves," MDN doc center
-
 ### 渲染上下文
 
 目前canvas只支持2d的上下文
@@ -16,7 +10,6 @@ canvas.getContext('2d')
 ### 栅格
 
 ![CANVAS坐标](https://mdn.mozillademos.org/files/224/Canvas_default_grid.png)
-
 
 ### 绘制矩形
 
@@ -72,7 +65,7 @@ ctx.lineTo(50, 50)
 ctx.lineTo(5, 30)
 ctx.fill()
 
-// 不需要自动闭合
+// 需要闭合
 ctx.beginPath()
 ctx.moveTo(60, 60)
 ctx.lineTo(100, 20)
@@ -198,15 +191,13 @@ ctx.fill(circle)
 
 #### 绘制吃豆人
 
-### 添加样式和颜色
 
-#### 颜色
+### 颜色
 
-fillStyle, 填充色
+1. fillStyle, 填充色
+2. strokeStyle, 填充边框色
 
-strokeStyle, 填充边框色
-
-##### 绘制色块
+#### fillStyle
 
 ```js
 
@@ -221,7 +212,7 @@ for (let i = 0; i < 6; i++) {
 }
 ```
 
-##### 绘制边框颜色
+#### strokeStyle
 
 ```js
 
@@ -268,6 +259,68 @@ for (let i = 0; i < 8; i++) {
   ctx.fill()
 }
 ```
+
+### lineStyles
+
+设置线条的样式属性, 这里不会纠结具体的细节。用到的时候在过来查询。
+
+1. lineWidth 线的宽度
+2. lineCap 线的末端样式
+3. lineJop 线条结合处的样式
+
+#### lineWidth
+
+宽度为奇数的线并不能精确呈现, 如下图所示。如果需要宽度为1的线, 我们需要对坐标进行更精准的控制。比如设置3.5的x坐标
+
+![image](https://developer.mozilla.org/@api/deki/files/601/=Canvas-grid.png)
+
+```js
+
+// lineWidth 示例
+
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+for (let i = 0; i < 10; i++) {
+  ctx.beginPath()
+  ctx.lineWidth = i + 1
+  ctx.moveTo(i * 10 + 10, 10)
+  ctx.lineTo(i * 10 + 10, 50)
+  ctx.closePath()
+  ctx.stroke()
+}
+```
+
+#### lineCap
+
+默认为butt类型
+
+1. butt
+2. round
+3. square
+
+![image](https://developer.mozilla.org/@api/deki/files/88/=Canvas_linecap.png)
+
+#### lineJoin
+
+1. round 圆角
+2. bevel 延长
+3. miter 截断
+
+![image](https://developer.mozilla.org/@api/deki/files/89/=Canvas_linejoin.png)
+
+### 渐变
+
+#### createLinearGradient 线性渐变
+
+createLinearGradient(x1, y1, x2, y2), 设置渐变的起点终点的坐标
+
+addColorStop(pos, color), pos是0-1表示位置的百分比，color表示百分比位置的颜色
+
+#### createRadialGradient 径向渐变
+
+
+
 
 
 

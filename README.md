@@ -658,3 +658,18 @@ for (let i = 0; i < 80; i++) {
   ctx.restore()
 }
 ```
+
+### 基本动画
+
+Canvas中的动画靠每一帧进行拼接
+
+1. 清空Canvas, 为下一帧做准备
+2. 保存Canvas的状态（动画过程中可能需要对样式修改，所以修改之前需要保存, 动画完成后需要还原）
+3. 绘制下一帧
+4. 恢复状态
+
+#### 操控动画
+
+可以使用setTimeout或者setInterval，更推荐使用window.requestAnimationFrame，window.requestAnimationFrame实现的动画更加平滑。
+
+#### 太阳系动画

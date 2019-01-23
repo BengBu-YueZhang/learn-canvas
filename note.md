@@ -471,6 +471,101 @@ avatar.src = 'http://p1.music.126.net/YjF2lCo6S3cKq11HjpoCGA==/3297435381883556.
 
 ### Transformations 变形
 
+在作变形操作前保存状态是一个良好的习惯
+
+#### save
+
+save方法将当前上下文的状态推送到栈中保存
+
+#### restore
+
+restore则是将上一个保存的状态取出, 恢复到上下文中
+
+```js
+
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+// 第一次保存状态
+// fillStyle是黑色
+ctx.save()
+
+// 第二次保存状态
+// fillStyle是0d47a1
+ctx.fillStyle = '#0d47a1'
+ctx.save()
+
+ctx.fillStyle = '#0097a7'
+
+ctx.fillRect(0, 0, 100, 100)
+// 取回上一次保存的颜色
+ctx.restore()
+ctx.fillRect(100, 0, 100, 100)
+```
+
+#### translate
+
+translate可以改变canvas的原点的位置， translate(x, y)为原点的坐标
+
+#### Rotating
+
+旋转canvas, 接受的是弧度的值, 除非使用translate，原点依旧是0，0
+
+![image](https://developer.mozilla.org/@api/deki/files/84/=Canvas_grid_rotate.png)
+
+```js
+// 旋转45度的正方形
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+ctx.save()
+
+ctx.fillRect(0, 0, 100, 100)
+
+ctx.fillStyle = '#e1f5fe'
+
+ctx.translate(100, 100)
+ctx.rotate((Math.PI/180) * 45)
+
+ctx.fillRect(0, 0, 100, 100)
+
+ctx.restore()
+```
+
+```js
+
+// 一圈圆圈
+
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+ctx.save()
+
+ctx.translate(100, 100)
+ctx.fillStyle = '#e1f5fe'
+
+for (let i = 0; i < 12; i++) {
+  ctx.save()
+  ctx.beginPath()
+  ctx.rotate((Math.PI/180) * (i * 30))
+  ctx.arc(
+    30,
+    30,
+    10,
+    0,
+    (Math.PI/180) * 360,
+    true
+  )
+  ctx.fill()
+  ctx.restore()
+}
+
+ctx.restore()
+
+```
+
+#### Scaling
+
 
 
 

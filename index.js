@@ -1,12 +1,25 @@
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 
-let avatar = new Image()
+ctx.save()
 
-avatar.onload = function () {
-  ctx.arc(100, 100, 50, 0, (Math.PI/180) * 360, true)
-  ctx.clip()
-  ctx.drawImage(avatar, 50, 50, 100, 100);
+ctx.translate(100, 100)
+ctx.fillStyle = '#e1f5fe'
+
+for (let i = 0; i < 12; i++) {
+  ctx.save()
+  ctx.beginPath()
+  ctx.rotate((Math.PI/180) * (i * 30))
+  ctx.arc(
+    30,
+    30,
+    10,
+    0,
+    (Math.PI/180) * 360,
+    true
+  )
+  ctx.fill()
+  ctx.restore()
 }
 
-avatar.src = 'http://p1.music.126.net/YjF2lCo6S3cKq11HjpoCGA==/3297435381883556.jpg?param=180y180'
+ctx.restore()

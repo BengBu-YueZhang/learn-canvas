@@ -1,4 +1,4 @@
-## 案例
+## 学习资料
 
 - [Canvas的基本用法](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Basic_usage)
 - [Canvas烟花](https://juejin.im/post/5b587f59e51d45191e0d04ae)

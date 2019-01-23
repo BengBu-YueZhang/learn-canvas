@@ -158,7 +158,6 @@ bezierCurveTo(控制点x1, 控制点y1, 控制点x2, 控制点y2, 结束x, 结�
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 
-
 ctx.fillStyle = '#d32f2f'
 ctx.beginPath();
 ctx.moveTo(240, 150);
@@ -564,5 +563,98 @@ ctx.restore()
 
 ```
 
-#### Scaling
+#### scale
 
+scale(x, y), x和y为x和y方向的缩放比例，1保持图像大小不变
+
+```js
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+ctx.save()
+
+ctx.scale(0.5, 1)
+ctx.font = "48px serif"
+ctx.fillText("Hello", 50, 100);
+
+ctx.restore()
+
+```
+
+### 裁剪与合成
+
+#### clip
+
+clip，将当前正在构建的路径转换为当前的裁剪路径
+
+```js
+
+// 这个园就是clip的裁剪路径
+ctx.arc(0, 0, 80, 0, Math.PI*2, true)
+
+ctx.clip()
+```
+
+```js
+
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+/**
+ * 画爱心
+ */
+function drawLove (ctx) {
+  const coloes = [
+    '#00bcd4',
+    '#039be5',
+    '#cddc39',
+    '#5c6bc0',
+    '#ec407a'
+  ]
+  ctx.save()
+  ctx.beginPath()
+  ctx.globalAlpha = 0.3
+  ctx.fillStyle = coloes[Math.floor(Math.random() * 5)]
+  ctx.moveTo(0, 0)
+  ctx.bezierCurveTo(-30, -10, -20, 30, 0, 30)
+  ctx.bezierCurveTo(20, 30, 30, -10, 0, 0)
+  ctx.fill()
+  ctx.restore()
+}
+
+ctx.save()
+
+ctx.fillRect(0, 0, 200, 200)
+
+ctx.beginPath()
+
+ctx.translate(100, 100)
+
+// 裁切的路径
+ctx.arc(
+  0,
+  0,
+  80,
+  0,
+  (Math.PI/180) * 360,
+  true
+)
+ctx.clip()
+
+let lingrad = ctx.createLinearGradient(0, -100 ,0, 100)
+lingrad.addColorStop(0, '#232256')
+lingrad.addColorStop(1, '#143778')
+ctx.fillStyle = lingrad
+ctx.fillRect(-100, -100, 200, 200)
+
+for (let i = 0; i < 80; i++) {
+  ctx.save()
+  // 随机开始绘画的点
+  ctx.translate(
+    75-Math.floor(Math.random()*150),
+    75-Math.floor(Math.random()*150)
+  );
+  drawLove(ctx)
+  ctx.restore()
+}
+```

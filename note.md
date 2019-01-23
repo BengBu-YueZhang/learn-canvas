@@ -332,6 +332,126 @@ ctx.fillRect(0, 0, 200, 200)
 
 #### createRadialGradient 径向渐变
 
+不同与经典的径向渐变, 只有一个中心点。canvas中可以设置两个不同的中心点。颜色从两个中心点进行扩散
+
+### Patterns
+
+使用图片进行填充，但是必须将图片加载onload完成后才可以, createPattern的第二个参数可以设置背景图片是否重复
+
+```js
+
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+const src = 'https://mdn.mozillademos.org/files/222/Canvas_createpattern.png'
+
+let img = new Image()
+
+img.src = src
+
+img.onload = function () {
+  let path = ctx.createPattern(img, 'repeat')
+  ctx.fillStyle = path
+  ctx.fillRect(0, 0, 150, 150)
+}
+```
+
+### Shadows
+
+shadowOffsetX x方向的偏移量
+
+shadowOffsetY y方向的偏移量
+
+shadowBlur 模糊
+
+shadowColor 阴影的颜色
+
+```js
+
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+ctx.shadowOffsetX = 2;
+ctx.shadowOffsetY = 2;
+ctx.shadowBlur = 2;
+ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+
+ctx.fillStyle = "Yellow";
+
+ctx.fillRect(0, 0, 100, 100)
+```
+
+### 文本
+
+fillText(text, x, y) 绘制文本
+
+strokeText(text, x, y) 绘制文本边框
+
+#### 获取文本宽度
+
+```js
+var text = ctx.measureText("foo");
+text.width;
+```
+
+### 使用图片
+
+#### drawImage
+
+drawImage(image, x, y, w, h)
+
+```js
+
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+let img = new Image()
+
+img.onload = function () {
+  for (let i = 0; i < 5; i++) {
+    ctx.drawImage(img, i * 50, 0, 50, 50)
+  }
+}
+
+img.src = 'http://p1.music.126.net/YjF2lCo6S3cKq11HjpoCGA==/3297435381883556.jpg?param=180y180'
+```
+
+#### Slicing
+
+drawImage的后四个参数是切片参数, drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+
+sx, sy, sWidth, sHeight 是对原图切片位置和大小
+
+dx, dy, dWidth, dHeight 是切片后的图片的位置和大小
+
+具体见下图
+
+![image](https://developer.mozilla.org/@api/deki/files/79/=Canvas_drawimage.jpg)
+
+```js
+
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+
+let bg = new Image()
+let avatar = new Image()
+
+bg.onload = function () {
+  ctx.drawImage(bg, 0, 0)
+}
+
+avatar.onload = function () {
+  setTimeout(() => {
+    ctx.drawImage(avatar, 0, 0, 100, 100, 40, 40, 100, 100)
+  }, 100)
+}
+
+
+bg.src = 'http://p1.music.126.net/Qgoya9RIjIYSIjscc9DmQA==/6669637534197208.jpg?param=180y180'
+avatar.src = 'http://p1.music.126.net/YjF2lCo6S3cKq11HjpoCGA==/3297435381883556.jpg?param=180y180'
+
+```
+
 
 
 

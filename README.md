@@ -12,4 +12,4 @@
 
 ## 效果预览
 
-- [爱心闪烁效果]()
+- [爱心闪烁效果](http://canvas.bengbuzhangyue.xyz/love/dist/)

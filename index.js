@@ -61,8 +61,8 @@ function init () {
     let x = Math.floor(Math.random() * width)
     let y = Math.floor(Math.random() * height)
     // -20 ~ -10 10 ~ 20的随机值
-    let vx = Math.floor(Math.random() * 2 + 1)
-    let vy = Math.floor(Math.random() * 2 + 1)
+    let vx = Math.floor(Math.random() * 3 + 1)
+    let vy = Math.floor(Math.random() * 3 + 1)
     vx = xDirection === 1 ? vx : -vx
     vy = yDirection === 1 ? vy : -vy
     let ball = new Ball(x, y, vx, vy, i)

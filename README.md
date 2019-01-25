@@ -8,3 +8,8 @@
 ## 分支
 
 - [基础Api学习](https://github.com/BengBu-YueZhang/learn-canvas/tree/01_BaseApi)
+- [爱心闪烁效果](https://github.com/BengBu-YueZhang/learn-canvas/tree/02_love_flashing)
+
+## 效果预览
+
+- [爱心闪烁效果]()

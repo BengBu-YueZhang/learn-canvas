@@ -9,7 +9,9 @@
 
 - [基础Api学习](https://github.com/BengBu-YueZhang/learn-canvas/tree/01_BaseApi)
 - [爱心闪烁效果](https://github.com/BengBu-YueZhang/learn-canvas/tree/02_love_flashing)
+- [简单的离子效果](https://github.com/BengBu-YueZhang/learn-canvas/tree/03_ball_line)
 
 ## 效果预览
 
 - [爱心闪烁效果](http://canvas.bengbuzhangyue.xyz/love/dist/)
+- [简单的离子效果](http://canvas.bengbuzhangyue.xyz/ballline/dist/)

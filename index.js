@@ -1,4 +1,6 @@
 let canvas = document.getElementById('canvas')
+canvas.style.filter = `blur(0.3px)`
+canvas.style.overflow = `hidden`
 let ctx = canvas.getContext('2d')
 let hearts = []
 const colors = [
@@ -20,7 +22,16 @@ const colors = [
   '#ff80ab',
   '#ad1457',
   '#ff4081',
-  '#f50057'
+  '#f50057',
+  '#dce775',
+  '#c0ca33',
+  '#2e7d32',
+  '#ff4081',
+  '#e53935',
+  '#9c27b0',
+  '#80d8ff',
+  '#81d4fa',
+  '#ff9100'
 ]
 
 class Heart {
@@ -34,15 +45,15 @@ class Heart {
 
   draw () {
     if (this.status === 'positive') {
-      this.alpha += 0.006
+      this.alpha += 0.005
       if (this.alpha >= 0.9) {
         this.alpha = 0.9
         this.status = 'negative'
       }
     } else {
-      this.alpha -= 0.006
+      this.alpha -= 0.005
       if (this.alpha <= 0) {
-        this.alpha = 0.01
+        this.alpha = 0
         this.status = 'positive'
       }
     }
@@ -62,24 +73,24 @@ class Heart {
   }
 }
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 330; i++) {
   let color = colors[
     Math.floor(Math.random() * colors.length)
   ]
   let heart = new Heart(
     color,
     Math.random(),
-    Math.floor(Math.random() * 500),
-    Math.floor(Math.random() * 500)
+    Math.floor(Math.random() * 2560),
+    Math.floor(Math.random() * 1440)
   )
   hearts.push(heart)
 }
 
 function animation () {
-  ctx.clearRect(0, 0, 500, 500)
+  ctx.clearRect(0, 0, 2560, 1440)
   ctx.save()
-  ctx.fillRect(0, 0, 500, 500)
-  for (let i = 0; i < 100; i++) {
+  ctx.fillRect(0, 0, 2560, 1440)
+  for (let i = 0; i < hearts.length; i++) {
     hearts[i].draw()
   }
   ctx.restore()

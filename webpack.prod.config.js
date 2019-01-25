@@ -3,6 +3,12 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var path = require('path')
 var HappyPack = require('happypack')
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+var MiniCssExtractPlugin = require('mini-css-extract-plugin')
+var CleanWebpackPlugin = require('clean-webpack-plugin')
+
+var outputPath = path.resolve(__dirname, './dist')
 
 module.exports = {
   devtool: 'false',
@@ -13,6 +19,12 @@ module.exports = {
 
   entry: {
     main: path.resolve(__dirname, './index.js')
+  },
+
+  output: {
+    path: outputPath,
+    filename: './static/js/[name].[chunkhash].js',
+    chunkFilename: './static/js/[name].[chunkhash].chunk.js'
   },
 
   resolve: {

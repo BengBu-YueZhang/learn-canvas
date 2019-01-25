@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config ./webpack.config.js --color",
-    "prod": "webpack --config ./webpack.prod.config.js --color"
+    "prod:02": "export dist=love && webpack --config ./webpack.prod.config.js --color"
   },
   "repository": {
     "type": "git",

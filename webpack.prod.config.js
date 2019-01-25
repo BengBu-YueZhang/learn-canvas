@@ -9,8 +9,6 @@ var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 
 
-var outputPath = path.resolve(__dirname, `./dist`)
-
 module.exports = {
   devtool: 'false',
 
@@ -23,7 +21,7 @@ module.exports = {
   },
 
   output: {
-    path: outputPath,
+    path: path.resolve(__dirname, `./dist`),
     filename: './static/js/[name].[chunkhash].js',
     chunkFilename: './static/js/[name].[chunkhash].chunk.js'
   },
@@ -167,7 +165,7 @@ module.exports = {
       ]
     }),
     new HtmlWebpackPlugin({
-      filename: path.resolve(__dirname, `./dist`),
+      filename: path.resolve(__dirname, `./dist/index.html`),
       template: path.resolve(__dirname, './public/index.html')
     }),
     new MiniCssExtractPlugin({

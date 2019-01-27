@@ -61,10 +61,17 @@
     #canvas {
       width: 100vw;
       height: 100vh;
+      overflow: hidden;
+    }
+    .iframe {
+      position: absolute;
+      left: 0;
+      top: 0;
     }
   </style>
 </head>
 <body>
+  <iframe class="iframe" frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=722055&auto=1&height=66"></iframe>
   <div id="app">
     <canvas id="canvas" width="2560px" height="1440px" ></canvas>
   </div>

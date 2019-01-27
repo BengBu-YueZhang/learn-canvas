@@ -1,85 +1,54 @@
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
-const length = 50
+// 马赛克的程度, 越大越模糊
+const value = 10
 const width = canvas.width
 const height = canvas.height
-// 小球的集合
-let balls = []
 
-class Ball {
-  constructor (x, y, vx, vy, index, size = 2, color = '#757575') {
-    this.x = x
-    this.y = y
-    this.vx = vx
-    this.vy = vy
-    this.size = size
-    this.color = color
-    this.index = index
-  }
+const w = Math.ceil(width / value)
+const h = Math.ceil(height / value)
 
-  draw () {
-    ctx.save()
-    ctx.fillStyle = this.color
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, true)
-    this.drawIine()
-    if (this.x >= width - this.size || this.x <= 0 + this.size) {
-      this.vx = -this.vx
-    }
-    if (this.y >= height - this.size || this.y <= 0 + this.size) {
-      this.vy = -this.vy
-    }
-    this.x += this.vx
-    this.y += this.vy
-    ctx.fill()
-    ctx.beginPath()
-    ctx.restore()
-  }
+// 获取像素点的颜色信息的颜色
+function getColor (imageData, x, y) {
+  let r = imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 1]
+  let g = imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 2]
+  let b = imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 3]
+  let a = imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 4]
+  return [r, g, b, a]
+}
 
-  drawIine () {
-    for (let i = 0; i < balls.length; i++) {
-      if (i === this.index) {
-        continue
-      } else {
-        let diffx = Math.abs(this.x - balls[i].x)
-        let diffy = Math.abs(this.y - balls[i].y)
-        let diffs = Math.sqrt((diffx * diffx) + (diffy * diffy))
-        if (diffs <= 200 ) {
-          ctx.strokeStyle = `rgba(189, 189, 189, ${diffs / 200})`
-          ctx.moveTo(this.x, this.y)
-          ctx.lineTo(balls[i].x, balls[i].y)
-          ctx.stroke()
-        }
-      }
+// 设置像素点的颜色
+function setColor (imageData, x, y, color) {
+  imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 1] = color[0]
+  imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 2] = color[1]
+  imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 3] = color[2]
+  imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 4] = color[3]
+}
+
+function draw (imageData) {
+  for (let i = 0; i < w; i++) {
+    for (let j = 0; j < h; j++) {
+      // 取 value * value 中随机的颜色
+      let color = getColor(
+        imageData,
+        i * value + Math.floor(Math.random() * value),
+        j * value + Math.floor(Math.random() * value)
+      )
+      ctx.save()
+      // 绘制马赛克小方块
+      ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`
+      ctx.fillRect(i * value, j * value, value, value)
+      ctx.restore()  
     }
   }
 }
 
-function init () {
-  for (let i = 0; i < length; i++) {
-    let xDirection = Math.floor(Math.random() * 2)
-    let yDirection = Math.floor(Math.random() * 2)
-    let x = Math.floor(Math.random() * width)
-    let y = Math.floor(Math.random() * height)
-    // -20 ~ -10 10 ~ 20的随机值
-    let vx = Math.floor(Math.random() * 3 + 1)
-    let vy = Math.floor(Math.random() * 3 + 1)
-    vx = xDirection === 1 ? vx : -vx
-    vy = yDirection === 1 ? vy : -vy
-    let ball = new Ball(x, y, vx, vy, i)
-    balls.push(ball)
-  }
+let img = new Image()
+img.onload = function () {
+  ctx.drawImage(img, 0, 0)
+  let data = ctx.getImageData(0, 0, width, height)
+  draw(data)
 }
+img.src = 'https://i.loli.net/2019/01/27/5c4da4f295ede.png'
+img.crossOrigin = "Anonymous"
 
-function draw () {
-  ctx.save()
-  ctx.clearRect(0, 0, width, height)
-  for (let i = 0; i < balls.length; i++) {
-    balls[i].draw()
-  }
-  ctx.restore()
-  window.requestAnimationFrame(draw)
-}
-
-init()
-
-window.requestAnimationFrame(draw)

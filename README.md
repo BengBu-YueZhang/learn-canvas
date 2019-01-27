@@ -951,6 +951,22 @@ window.requestAnimationFrame(animation)
 
 ### 高级动画
 
+#### 常用的动画技巧
+
+1. 速度乘与一个小数, 可以实现逐渐减速的效果
+
+2. 速度乘与一个小数, 其中一个方向比如Y方向同时加上一个速度可以实现类似抛物线的运动轨迹
+
+```js
+
+this.vy *= .99
+this.vy += .25
+```
+
+3. 长尾效果，不使用clearRect清除前一祯的动画，使用半透明fillRect替代可以实现长尾效果
+
+4. canvas可以使用addEventListener添加事件
+
 #### 绘制小球
 
 ```js
@@ -1041,3 +1057,127 @@ init()
 
 window.requestAnimationFrame(draw)
 ```
+
+### 像素操作
+
+#### ImageData
+
+ImageData存储着Canvas的像素信息
+
+1. width 宽度
+2. height 高度
+3. data 每一个像素的数组, Uint8ClampedArray, (每个像素用4个1bytes值, 一个像素占用4比特的内存)。**索引值的范围0到(高度×宽度×4)-1**。(以下是读取的公式)
+
+```js
+
+// 读取像素点的红色信息
+imageData.data[((行数-1)*imageData.width + (列数-1))*4 - 1 + 1]
+// 读取像素点的绿色信息
+imageData.data[((行数-1)*imageData.width + (列数-1))*4 - 1 + 2]
+// 读取像素点的蓝色信息
+imageData.data[((行数-1)*imageData.width + (列数-1))*4 - 1 + 3]
+// 读取像素点的透明信息
+imageData.data[((行数-1)*imageData.width + (列数-1))*4 - 1 + 4]
+
+// 读取图片中位于第50行，第200列的像素的蓝色部份
+blueComponent = imageData.data[((50-1)*imageData.width + (200-1))*4 - 1 + 3]
+```
+
+#### 创建一个ImageData对象
+
+```js
+
+// 获取画布的像素信息
+// left, top 起始点的坐标
+// width 宽 height 高
+var myImageData = ctx.getImageData(left, top, width, height)
+```
+
+#### 颜色选择器
+
+> 使用mdn的图片，遇到跨域问题
+
+![image](https://i.loli.net/2019/01/27/5c4da4f295ede.png)
+
+```js
+
+// 使用图片的crossOrigin属性
+img.crossOrigin = "Anonymous"
+
+// 使用这个方法的前提是服务器端设置cors
+Access-Control-Allow-Origin "*"
+```
+
+#### putImageData
+
+putImageData 可以将像素信息填充到画布中
+
+putImageData(Array<T>, x, y)
+
+Array<T>是像素信息，x, y为填充的偏移量
+
+##### 马赛克处理
+
+```
+let canvas = document.getElementById('canvas')
+let ctx = canvas.getContext('2d')
+// 马赛克的程度, 越大越模糊
+const value = 10
+const width = canvas.width
+const height = canvas.height
+
+const w = Math.ceil(width / value)
+const h = Math.ceil(height / value)
+
+// 获取像素点的颜色信息的颜色
+function getColor (imageData, x, y) {
+  let r = imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 1]
+  let g = imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 2]
+  let b = imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 3]
+  let a = imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 4]
+  return [r, g, b, a]
+}
+
+// 设置像素点的颜色
+function setColor (imageData, x, y, color) {
+  imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 1] = color[0]
+  imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 2] = color[1]
+  imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 3] = color[2]
+  imageData.data[((y-1)*imageData.width + (x-1))*4 - 1 + 4] = color[3]
+}
+
+function draw (imageData) {
+  for (let i = 0; i < w; i++) {
+    for (let j = 0; j < h; j++) {
+      // 取 value * value 中随机的颜色
+      let color = getColor(
+        imageData,
+        i * value + Math.floor(Math.random() * value),
+        j * value + Math.floor(Math.random() * value)
+      )
+      ctx.save()
+      // 绘制马赛克小方块
+      ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`
+      ctx.fillRect(i * value, j * value, value, value)
+      ctx.restore()  
+    }
+  }
+}
+
+let img = new Image()
+img.onload = function () {
+  ctx.drawImage(img, 0, 0)
+  let data = ctx.getImageData(0, 0, width, height)
+  draw(data)
+}
+img.src = 'https://i.loli.net/2019/01/27/5c4da4f295ede.png'
+img.crossOrigin = "Anonymous"
+
+
+```
+
+
+
+
+
+

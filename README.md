@@ -1118,7 +1118,7 @@ Array<T>是像素信息，x, y为填充的偏移量
 
 ##### 马赛克处理
 
-```
+```js
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 // 马赛克的程度, 越大越模糊
@@ -1172,8 +1172,33 @@ img.onload = function () {
 }
 img.src = 'https://i.loli.net/2019/01/27/5c4da4f295ede.png'
 img.crossOrigin = "Anonymous"
+```
 
+##### 缩放和反锯齿
 
+imageSmoothingEnabled   
+
+```js
+
+// 设置反锯齿
+zoomctx.imageSmoothingEnabled = this.checked
+zoomctx.mozImageSmoothingEnabled = this.checked
+zoomctx.webkitImageSmoothingEnabled = this.checked
+zoomctx.msImageSmoothingEnabled = this.checked
+```
+
+##### 保存图片
+
+可以使用toDataURL, 或者使用toBlob创建一个Blob的对象。
+
+```js
+
+// canvas生成图片的类型
+// encoderOptions则是图片的质量
+canvas.toDataURL(type, encoderOptions)
+
+// 图片的类型
+canvas.toBlob(回调函数, 图片的类型, 图片的质量)
 ```
 
 

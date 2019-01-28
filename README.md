@@ -11,6 +11,7 @@
 - [爱心闪烁效果](https://github.com/BengBu-YueZhang/learn-canvas/tree/02_love_flashing)
 - [简单的离子效果](https://github.com/BengBu-YueZhang/learn-canvas/tree/03_ball_line)
 - [简单的烟花效果](https://github.com/BengBu-YueZhang/learn-canvas/tree/04_simple_fireworks)
+- [简单的图片编辑器](https://github.com/BengBu-YueZhang/learn-canvas/tree/05_simple_image_edit)
 
 ## 效果预览
 

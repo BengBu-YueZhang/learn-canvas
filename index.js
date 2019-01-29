@@ -10,3 +10,5 @@ const ctx = canvas.getContext('2d')
 let steps = []
 let tail = null
 
+Scissors.created()
+

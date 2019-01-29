@@ -26,6 +26,10 @@ export default {
       </div>
     `
 
+    /**
+     * 这边有很多边界情况没有处理，暂时不处理了，实现简单的功能就可以了，，，，懒得写了。。。。。
+     */
+
     document.getElementsByClassName('canvas')[0].innerHTML += scissors
     
     let cropTopLeft = document.getElementsByClassName('crop-top-left')[0]
@@ -71,7 +75,6 @@ export default {
           break
         case 'top-right':
         case 'top-center':
-          console.log(y)
           if (x !== undefined) {
             crop.style.paddingRight = initX + x + 'px'
           }
@@ -81,6 +84,10 @@ export default {
           }
           break
         case 'top-left':
+          crop.style.height = initY + y + 'px'
+          crop.style.top = top - y + 'px'
+          crop.style.width = initX + x + 'px'
+          crop.style.left = left - x + 'px'
           break
       }
       
@@ -213,6 +220,47 @@ export default {
       let top = getPx(crop.style.top)
       document.onmousemove = function (e) {
         changeSize({ initX, initY, top, x: e.clientX - x, y: -(e.clientY - y), type: 'top-right' })
+        e.stopPropagation()
+        e.preventDefault()
+      }
+      document.onmouseup = function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        document.onmousemove = null
+        document.onmouseup = null
+      } 
+    }
+
+    cropTopCenter.onmousedown = function (e) {
+      e.stopPropagation()
+      e.preventDefault()
+      y = e.clientY
+      let initY = getPx(crop.style.height)
+      let top = getPx(crop.style.top)
+      document.onmousemove = function (e) {
+        changeSize({ initY, top, y: -(e.clientY - y), type: 'top-center' })
+        e.stopPropagation()
+        e.preventDefault()
+      }
+      document.onmouseup = function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        document.onmousemove = null
+        document.onmouseup = null
+      } 
+    }
+
+    cropTopLeft.onmousedown = function (e) {
+      e.stopPropagation()
+      e.preventDefault()
+      x = e.clientX
+      y = e.clientY
+      let initX = getPx(crop.style.width)
+      let initY = getPx(crop.style.height)
+      let top = getPx(crop.style.top)
+      let left = getPx(crop.style.left)
+      document.onmousemove = function (e) {
+        changeSize({ initX, initY, top, left, x: -(e.clientX - x), y: -(e.clientY - y), type: 'top-left' })
         e.stopPropagation()
         e.preventDefault()
       }

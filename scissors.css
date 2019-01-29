@@ -17,6 +17,11 @@
   width: 10px;
   height: 10px;
   background-color: rgba( 33, 150, 243, 0.5);
+  cursor: default;
+}
+
+.crop-top-left:hover {
+  cursor: nwse-resize;
 }
 
 .crop-top-center {
@@ -27,6 +32,11 @@
   height: 8px;
   margin-left: -4px;
   background-color: rgba( 33, 150, 243, 0.5);
+  cursor: default;
+}
+
+.crop-top-center:hover {
+  cursor: ns-resize;
 }
 
 .crop-top-right {
@@ -36,6 +46,11 @@
   width: 10px;
   height: 10px;
   background-color: rgba( 33, 150, 243, 0.5);
+  cursor: default;
+}
+
+.crop-top-right:hover {
+  cursor: nesw-resize;
 }
 
 .crop-center-left {

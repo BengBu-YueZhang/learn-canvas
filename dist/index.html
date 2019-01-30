@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>canvas</title>
+  <style>
+    /* http://meyerweb.com/eric/tools/css/reset/ 
+      v2.0 | 20110126
+      License: none (public domain)
+    */
+
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+    body {
+      line-height: 1;
+    }
+    ol, ul {
+      list-style: none;
+    }
+    blockquote, q {
+      quotes: none;
+    }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+      content: '';
+      content: none;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    #app {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #canvas {
+      width: 100%;
+      background-color: #fff;
+    }
+    .canvas-wrapper {
+      position: relative;
+      width: 375px;
+    }
+    .canvas {
+      background-color: #57c5f7;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .edit {
+      flex: 1;
+      height: 100vh;
+      background-color: aliceblue;
+    }
+    .button {
+      background-color: #57c5f7;
+      border-color: #57c5f7;
+      outline: 0;
+      vertical-align: middle;
+      line-height: 1.5;
+      display: inline-block;
+      margin-bottom: 0;
+      font-weight: 400;
+      text-align: center;
+      touch-action: manipulation;
+      cursor: pointer;
+      background-image: none;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      user-select: none;
+      padding: 5px 15px 6px;
+      font-size: 12px;
+      border-radius: 4px;
+      transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
+      color: #fff;
+    }
+    .btn-wrapper {
+      text-align: center;
+      padding: 10px 0;
+    }
+  </style>
+<link href="./static/css/fd0e5213c8a2be329afb.css" rel="stylesheet"></head>
+<body>
+  <div id="app">
+    <div class="canvas">
+      <h1>5秒后自动裁切</h1>
+      <div class="canvas-wrapper">
+        <canvas id="canvas" width="1125px" height="2001px"></canvas>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript" src="./static/js/main.2ef2c6a1d931dc63d358.js"></script></body>
+</html>

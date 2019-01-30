@@ -30,7 +30,7 @@ export default {
      * 这边有很多边界情况没有处理，暂时不处理了，实现简单的功能就可以了，，，，懒得写了。。。。。
      */
 
-    document.getElementsByClassName('canvas')[0].innerHTML += scissors
+    document.getElementsByClassName('canvas-wrapper')[0].innerHTML += scissors
     
     let cropTopLeft = document.getElementsByClassName('crop-top-left')[0]
     let cropTopCenter = document.getElementsByClassName('crop-top-center')[0]
@@ -285,5 +285,13 @@ export default {
    * 生成图片
    */
   load () {
+    const crop = document.getElementsByClassName('crop')[0]
+    return {
+      t: crop.getBoundingClientRect().top,
+      l: crop.getBoundingClientRect().left,
+      w: crop.getBoundingClientRect().width,
+      h: crop.getBoundingClientRect().height
+    }
+    console.log()
   }
 }

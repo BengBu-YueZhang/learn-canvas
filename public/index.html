@@ -64,15 +64,23 @@
     }
     #canvas {
       width: 100%;
-      height: 100vh;
+      background-color: #fff;
+    }
+    .canvas-wrapper {
+      position: relative;
+      width: 375px;
     }
     .canvas {
-      position: relative;
-      flex: 1;
+      background-color: #57c5f7;
+      width: 100%;
       height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
     .edit {
-      flex: 0 0 350px;
+      flex: 1;
       height: 100vh;
       background-color: aliceblue;
     }
@@ -107,23 +115,9 @@
 <body>
   <div id="app">
     <div class="canvas">
-      <canvas id="canvas" width="2560px" height="1440px"></canvas>
-    </div>
-    <div class="edit">
-      <div class="btn-wrapper">
-        <button id="scissors" class="button">裁切</button>
-      </div>
-      <div class="btn-wrapper">
-        <button id="mosaic" class="button">马赛克</button>
-      </div>
-      <div class="btn-wrapper">
-        <button id="graffiti" class="button">涂鸦</button>
-      </div>
-      <div class="btn-wrapper">
-        <button id="cancel" class="button">撤销</button>
-      </div>
-      <div class="btn-wrapper">
-        <button id="upload" class="button">上传图片</button>
+      <h1>5秒后自动裁切</h1>
+      <div class="canvas-wrapper">
+        <canvas id="canvas" width="1125px" height="2001px"></canvas>
       </div>
     </div>
   </div>

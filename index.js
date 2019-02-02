@@ -1,6 +1,8 @@
 const canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 
+ctx.lineCap = 'round'
+
 function randomFrom (lowerValue, upperValue) {
   return Math.floor(
     Math.random() * (upperValue - lowerValue + 1) + lowerValue
@@ -12,6 +14,29 @@ const height = canvas.height
 const domWidth = canvas.getBoundingClientRect().width
 const dowHeight = canvas.getBoundingClientRect().height
 
+function throttle (fn, time = 150) {
+  let self = fn
+  let timer = null
+  let isFirst = true
+  return function (...rest) {
+      if (isFirst) {
+          self.apply(this, rest)
+          isFirst = false
+          return
+      }
+
+      if (timer) {
+          return false
+      }
+
+      timer = setTimeout(() => {
+          clearTimeout(timer)
+          timer = null
+          self.apply(this, rest)
+      }, time)
+  }
+}
+
 // 颜色
 const colors = [
   '#f44336',
@@ -20,15 +45,23 @@ const colors = [
   '#f5f5f5',
   '#8bc34a',
   '#ffeb3b',
+  '#673ab7',
   '#ffc107',
-  '#ff5722'
+  '#ff5722',
+  '#81c784',
+  '#29b6f6',
+  '#03a9f4',
+  '#1e88e5',
+  '#e91e63',
+  '#d81b60',
+  '#26a69a'
 ]
 
 // 激光的加速系数
-const AccelerationFactor = 1.04
+const AccelerationFactor = 1.07
 
 // 一次产生的火花的数量
-const sparksLength = 30
+const sparksLength = 50
 
 // target的最大半径
 const TargetR = 12
@@ -59,8 +92,8 @@ class Spark {
   initVxVy () {
     this.x += this.vx
     this.y += this.vy 
-    this.vy += 0.03
-    this.vx *= 0.99
+    this.vy += 0.1
+    // this.vx *= 0.99
     this.vy *= 0.99
     this.opcity -= 0.01
   }
@@ -74,12 +107,10 @@ class Spark {
       ctx.save()
       ctx.beginPath()
       ctx.globalAlpha = this.opcity
-      ctx.lineWidth = 4
-      ctx.lineCap = 'round'
-      ctx.strokeStyle = colors[randomFrom(0, 6)]
+      ctx.lineWidth = 5
+      ctx.strokeStyle = colors[randomFrom(0, colors.length - 1)]
       ctx.moveTo(this.prevX, this.prevY)
       ctx.lineTo(this.x, this.y)
-      ctx.closePath()
       ctx.stroke()
       ctx.restore()
       this.prevX = this.x
@@ -138,12 +169,10 @@ class BiuBiuBiu {
     this.initVxVy()
     ctx.save()
     ctx.beginPath()
-    ctx.lineWidth = 8
-    ctx.lineCap = 'round'
-    ctx.strokeStyle = colors[randomFrom(0, 6)]
+    ctx.lineWidth = 6
+    ctx.strokeStyle = colors[randomFrom(0, colors.length - 1)]
     ctx.moveTo(this.prevX, this.prevY)
     ctx.lineTo(this.x, this.y)
-    ctx.closePath()
     ctx.stroke()
     this.prevX = this.x
     this.prevY = this.y
@@ -183,7 +212,7 @@ class Target {
   }
 
   render () {
-    let color = colors[randomFrom(0, 6)]
+    let color = colors[randomFrom(0, colors.length - 1)]
     ctx.save()
     ctx.beginPath()
     ctx.strokeStyle = color
@@ -216,13 +245,19 @@ class Target {
   }
 }
 
-canvas.addEventListener('click', (event) => {
+function onMousemove (event) {
   let x = event.pageX * (width / domWidth)
   let y = event.pageY * (height / dowHeight)
   let target = new Target(x, y)
   let biuBiuBiu = new BiuBiuBiu(x, y)
   targets.push(target)
   biuBiuBius.push(biuBiuBiu)
+}
+
+const throttleOnMousemove = throttle(onMousemove)
+
+canvas.addEventListener('mousemove', (event) => {
+  throttleOnMousemove(event)
 })
 
 function draw () {

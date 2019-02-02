@@ -16,10 +16,8 @@ const dowHeight = canvas.getBoundingClientRect().height
 const colors = [
   '#f44336',
   '#e91e63',
-  '#9c27b0',
-  '#2196f3',
-  '#03a9f4',
   '#4caf50',
+  '#f5f5f5',
   '#8bc34a',
   '#ffeb3b',
   '#ffc107',
@@ -27,7 +25,10 @@ const colors = [
 ]
 
 // 激光的加速系数
-const AccelerationFactor = 1.1
+const AccelerationFactor = 1.04
+
+// 一次产生的火花的数量
+const sparksLength = 30
 
 // target的最大半径
 const TargetR = 12
@@ -38,6 +39,55 @@ let biuBiuBius = []
 let targets = []
 // 全局火花数组
 let sparks = []
+
+/**
+ * 火花类
+ */
+class Spark {
+  constructor (x, y, radius = 3) {
+    this.x = x
+    this.y = y
+    this.prevX = this.x
+    this.prevY = this.y
+    this.rate = Math.random()
+    this.angle = Math.PI * 2 * Math.random()
+    this.vx = radius * Math.cos(this.angle) * this.rate 
+    this.vy = radius * Math.sin(this.angle) * this.rate
+    this.opcity = 1
+  }
+
+  initVxVy () {
+    this.x += this.vx
+    this.y += this.vy 
+    this.vy += 0.03
+    this.vx *= 0.99
+    this.vy *= 0.99
+    this.opcity -= 0.01
+  }
+
+  render () {
+    this.initVxVy()
+    if (this.opcity <= 0) {
+      this.opcity = 0
+      return false
+    } else {
+      ctx.save()
+      ctx.beginPath()
+      ctx.globalAlpha = this.opcity
+      ctx.lineWidth = 4
+      ctx.lineCap = 'round'
+      ctx.strokeStyle = colors[randomFrom(0, 6)]
+      ctx.moveTo(this.prevX, this.prevY)
+      ctx.lineTo(this.x, this.y)
+      ctx.closePath()
+      ctx.stroke()
+      ctx.restore()
+      this.prevX = this.x
+      this.prevY = this.y
+      return true
+    }
+  }
+}
 
 /**
  * 激光类
@@ -56,7 +106,7 @@ class BiuBiuBiu {
     this.vx = 0
     this.vy = 0
     // 开始的速度
-    this.v = 2
+    this.v = 3
     // x, y的方向
     this.directionX = this.targetX > this.x ? 1 : 0
     this.directionY = 0
@@ -78,21 +128,28 @@ class BiuBiuBiu {
    * 爆炸
    */
   boom () {
+    for (let i = 0; i < sparksLength; i++) {
+      let spark = new Spark(this.targetX, this.targetY)
+      sparks.push(spark)
+    }
   }
 
   render () {
     this.initVxVy()
     ctx.save()
     ctx.beginPath()
-    ctx.lineWidth = 3
+    ctx.lineWidth = 8
     ctx.lineCap = 'round'
-    ctx.strokeStyle = colors[randomFrom(0, 9)]
+    ctx.strokeStyle = colors[randomFrom(0, 6)]
     ctx.moveTo(this.prevX, this.prevY)
     ctx.lineTo(this.x, this.y)
+    ctx.closePath()
+    ctx.stroke()
     this.prevX = this.x
     this.prevY = this.y
     this.x += this.vx
     this.y += this.vy
+    
     ctx.restore()
     if (
       (
@@ -106,6 +163,7 @@ class BiuBiuBiu {
         this.x <= this.targetX
       )
     ) {
+      this.boom()
       // 爆炸
       return false
     }
@@ -125,7 +183,7 @@ class Target {
   }
 
   render () {
-    let color = colors[randomFrom(0, 9)]
+    let color = colors[randomFrom(0, 6)]
     ctx.save()
     ctx.beginPath()
     ctx.strokeStyle = color
@@ -180,6 +238,14 @@ function draw () {
       // 释放内存
       targets.splice(0, 1)
       biuBiuBius.splice(0, 1)
+      i--
+    }
+  }
+  for (let i = 0; i < sparks.length; i++) {
+    let result = sparks[i].render()
+    if (!result) {
+      // 释放内存
+      sparks.splice(0, 1)
       i--
     }
   }

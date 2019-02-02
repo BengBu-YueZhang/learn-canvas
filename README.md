@@ -24,5 +24,5 @@
 - [简单的烟花效果](http://canvas.bengbuzhangyue.xyz/simple_fireworks/dist/)
 - [canvas实现图片裁切](http://canvas.bengbuzhangyue.xyz/simple_image_edit/dist/)
 - [canvas射激光](http://canvas.bengbuzhangyue.xyz/BiuBiuBiu/dist/)
-- [canvas实现音乐律动](http://canvas.bengbuzhangyue.xyz/paopao/dist/)
+- [canvas实现鼠标跟踪动画](http://canvas.bengbuzhangyue.xyz/paopao/dist/)
 - [canvas实现3D文字]()

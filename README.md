@@ -188,9 +188,6 @@ ctx.stroke(rectangle)
 ctx.fill(circle)
 ```
 
-#### 绘制吃豆人
-
-
 ### 颜色
 
 1. fillStyle, 填充色
@@ -1189,7 +1186,7 @@ zoomctx.msImageSmoothingEnabled = this.checked
 
 ##### 保存图片
 
-可以使用toDataURL, 或者使用toBlob创建一个Blob的对象。
+可以使用toDataURL, 或者使用toBlob创建一个Blob的对象。blob对象可以配合使用file-save的库完成前端导出的功能
 
 ```js
 
@@ -1200,6 +1197,15 @@ canvas.toDataURL(type, encoderOptions)
 // 图片的类型
 canvas.toBlob(回调函数, 图片的类型, 图片的质量)
 ```
+
+### Canvas优化
+
+1. 避免浮点数坐标
+2. 离屏渲染（在内存中的canvas对象渲染好图像，使用drawImage渲染到dom中的canvas，drawImage可以将canvas渲染到canvas上）
+3. 使用多层画布画一个复杂场景（不经常改变的元素可以使用另一层画布渲染）
+4. 使用css渲染背景图，避免重复的渲染背景图
+5. 不要在用drawImage时缩放图像
+
 
 
 

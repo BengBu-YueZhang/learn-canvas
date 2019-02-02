@@ -23,6 +23,6 @@
 - [简单的离子效果](http://canvas.bengbuzhangyue.xyz/ballline/dist/)
 - [简单的烟花效果](http://canvas.bengbuzhangyue.xyz/simple_fireworks/dist/)
 - [canvas实现图片裁切](http://canvas.bengbuzhangyue.xyz/simple_image_edit/dist/)
-- [canvas射激光](https://github.com/BengBu-YueZhang/learn-canvas/tree/BiuBiuBiu)
+- [canvas射激光](http://canvas.bengbuzhangyue.xyz/BiuBiuBiu/dist/)
 <!-- - [canvas实现音乐律动]()
 - [canvas实现3D文字]() -->

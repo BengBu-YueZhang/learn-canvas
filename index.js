@@ -18,6 +18,8 @@ const DrawText = '新年快乐'
 
 let balls = []
 
+let that = this
+
 /**
  * 随机数字
  */
@@ -34,36 +36,41 @@ function randomColor (opacity = 1) {
   return `rgba(${randomNumber(0, 255)}, ${randomNumber(0, 255)}, ${randomNumber(0, 255)}, ${opacity})`
 }
 
-let ctx = canvas.getContext('2d')
+let CanvasCtx = canvas.getContext('2d')
 
 /**
  * 小球构造类
  */
 class Ball {
   constructor (x, y, z, r = 4, color = '#757575') {
+    // 最初的坐标
+    this.formX = randomNumber(-width, width)
+    this.formY = randomNumber(-height, height)
+    this.formZ = randomNumber(-100, 100)
+    // 当前的坐标
+    this.currentX
+    this.currentY
+    this.currentZ
+    // 最终的坐标
     this.toX = x
     this.toY = y
     this.toZ = z
     this.r = r
     this.color = color
-    this.formX = randomNumber(-width, width)
-    this.formY = randomNumber(-height, height)
-    // z坐标随机-100到100
-    this.formZ = randomNumber(-100, 100)
   }
 
-  render () {
+  render (ctx) {
     // let scale = pers / (pers + this.z)
     // let x = parseInt(Math.abs(w/2+(this.x-w/2)*scale));
     // let y = parseInt(Math.abs(h/2+(this.y-h/2)*scale));
     // let r = this.r*scale;
-    // ctx.save()
-    // ctx.fillStyle = this.color
-    // ctx.beginPath()
-    // ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, true)
-    // ctx.closePath()
-    // ctx.fill()
-    // ctx.restore()
+    ctx.save()
+    ctx.fillStyle = this.color
+    ctx.beginPath()
+    ctx.arc(this.toX, this.toY, this.r, 0, Math.PI * 2, true)
+    ctx.closePath()
+    ctx.fill()
+    ctx.restore()
   }
 }
 
@@ -81,23 +88,28 @@ class Text {
     const canvas = document.createElement('canvas')
     canvas.width = width
     canvas.height = height
-    let ctx = canvas.getContext('2d')
-    ctx.clearRect(0, 0, width, height)
-    ctx.save()
-    ctx.fillRect(0, 0, width, height, '#fffff')
-    ctx.font = "120px 微软雅黑"
-    ctx.textAlign = 'center'
-    ctx.fillText(this.text, width / 2, height / 2)
-    ctx.restore()
-    this.imageData = ctx.getImageData(0, 0, width, height)
+    let CanvasCtx = canvas.getContext('2d')
+    CanvasCtx.clearRect(0, 0, width, height)
+    CanvasCtx.save()
+    CanvasCtx.fillStyle = 'rgb(255, 255, 255)'
+    CanvasCtx.fillRect(0, 0, width, height)
+    CanvasCtx.fillStyle = 'rgb(0, 0, 0)'
+    CanvasCtx.font = "200px 微软雅黑"
+    CanvasCtx.textAlign = 'center'
+    CanvasCtx.fillText(this.text, width / 2, height / 2)
+    CanvasCtx.restore()
+    this.imageData = CanvasCtx.getImageData(0, 0, width, height)
   }
 
   addBall () {
     for (let i = 4; i < this.imageData.width; i += 8) {
       for (let j = 4; j < this.imageData.height; j += 8) {
-        // 判断当前点的是否有颜色，判断当前点是否渲染文字
-        let Rcolor = this.imageData.data[((i-1)*this.imageData.width + (j-1))*4 - 1 + 1]
-        if (Rcolor !== 0) {
+        let Rcolor = this.imageData.data[((j-1)*this.imageData.width + (i-1))*4 - 1 + 1]
+        let Gcolor = this.imageData.data[((j-1)*this.imageData.width + (i-1))*4 - 1 + 2]
+        let Bcolor = this.imageData.data[((j-1)*this.imageData.width + (i-1))*4 - 1 + 3]
+        if (Rcolor < 180 && Gcolor < 180 && Bcolor < 180) {
+          let ball = new Ball(i, j)
+          ball.render(CanvasCtx)
         }
       }
     }
@@ -108,7 +120,10 @@ function init () {
   let text = new Text(DrawText)
   text.getImageData()
   text.addBall()
-  console.log('???')
 }
 
+// 初始化小球
 init()
+
+function draw () {
+}

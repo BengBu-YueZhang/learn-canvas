@@ -21,6 +21,8 @@ const DrawText = '新年快乐'
 
 let balls = []
 
+let status = 'positive'
+
 /**
  * 随机数字
  */
@@ -29,6 +31,14 @@ function randomNumber (lowerValue, upperValue) {
     Math.random() * (upperValue - lowerValue + 1) + lowerValue
   )
 }
+
+function sleep(delay) {
+  var start = (new Date()).getTime();
+  while ((new Date()).getTime() - start < delay) {
+    continue;
+  }
+}
+
 
 /**
  * 随机色
@@ -130,7 +140,7 @@ function init () {
 init()
 
 function draw () {
-  if (formTime <= toTime) {
+  if (status === 'positive') {
     CanvasCtx.clearRect(0, 0, width, height)
     CanvasCtx.save()
     for (let i = 0; i < balls.length; i++) {
@@ -141,6 +151,28 @@ function draw () {
     }
     CanvasCtx.restore()
     formTime++
+    if (formTime > toTime) {
+      status = 'negative'
+      formTime = 0
+      sleep(1000)
+    }
+    window.requestAnimationFrame(draw)
+  } else {
+    CanvasCtx.clearRect(0, 0, width, height)
+    CanvasCtx.save()
+    for (let i = 0; i < balls.length; i++) {
+      balls[i].currentX = Tween.Quad.easeOut(formTime, balls[i].toX, balls[i].formX - balls[i].toX, toTime)
+      balls[i].currentY = Tween.Quad.easeOut(formTime, balls[i].toY, balls[i].formY - balls[i].toY, toTime)
+      balls[i].currentZ = Tween.Quad.easeOut(formTime, balls[i].toZ, balls[i].formZ - balls[i].toZ, toTime)
+      balls[i].render(CanvasCtx)
+    }
+    CanvasCtx.restore()
+    formTime++
+    if (formTime > toTime) {
+      status = 'positive'
+      formTime = 0
+      sleep(1000)
+    }
     window.requestAnimationFrame(draw)
   }
 }

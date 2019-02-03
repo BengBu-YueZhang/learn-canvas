@@ -1,5 +1,4 @@
-import './tween.js'
-import './animation.js'
+import Tween from './tween.js'
 
 /**
  * 参考了小寒的效果
@@ -9,6 +8,10 @@ import './animation.js'
 const canvas = document.getElementById('canvas')
 
 const pers = 100
+
+// 50不是毫秒数，requestAnimationFrame的执行的次数
+let toTime = 50
+let formTime = 0
 
 const width = canvas.width
 
@@ -58,11 +61,11 @@ class Ball {
   }
 
   render (ctx) {
+    // 透视原理的3d效果
     let scale = pers / (pers + this.currentZ)
     let x = parseInt(Math.abs( width / 2+ (this.currentX - width / 2) * scale))
     let y = parseInt(Math.abs( height / 2 + (this.currentY - height / 2) *scale))
     let r = this.r * scale
-    // console.log(x, y, r)
     ctx.save()
     ctx.fillStyle = this.color
     ctx.beginPath()
@@ -108,8 +111,9 @@ class Text {
         let Gcolor = this.imageData.data[((j-1)*this.imageData.width + (i-1))*4 - 1 + 2]
         let Bcolor = this.imageData.data[((j-1)*this.imageData.width + (i-1))*4 - 1 + 3]
         if (Rcolor < 180 && Gcolor < 180 && Bcolor < 180) {
-          let ball = new Ball(i, j)
+          let ball = new Ball(i, j, 0)
           ball.render(CanvasCtx)
+          balls.push(ball)
         }
       }
     }
@@ -126,5 +130,20 @@ function init () {
 init()
 
 function draw () {
+  if (formTime <= toTime) {
+    CanvasCtx.clearRect(0, 0, width, height)
+    CanvasCtx.save()
+    for (let i = 0; i < balls.length; i++) {
+      balls[i].currentX = Tween.Quad.easeOut(formTime, balls[i].formX, balls[i].toX - balls[i].formX, toTime)
+      balls[i].currentY = Tween.Quad.easeOut(formTime, balls[i].formY, balls[i].toY - balls[i].formY, toTime)
+      balls[i].currentZ = Tween.Quad.easeOut(formTime, balls[i].formZ, balls[i].toZ - balls[i].formZ, toTime)
+      balls[i].render(CanvasCtx)
+    }
+    CanvasCtx.restore()
+    formTime++
+    window.requestAnimationFrame(draw)
+  }
 }
 
+
+window.requestAnimationFrame(draw)

@@ -18,8 +18,6 @@ const DrawText = '新年快乐'
 
 let balls = []
 
-let that = this
-
 /**
  * 随机数字
  */
@@ -48,9 +46,9 @@ class Ball {
     this.formY = randomNumber(-height, height)
     this.formZ = randomNumber(-100, 100)
     // 当前的坐标
-    this.currentX
-    this.currentY
-    this.currentZ
+    this.currentX = this.formX
+    this.currentY = this.formY
+    this.currentZ = this.formZ
     // 最终的坐标
     this.toX = x
     this.toY = y
@@ -60,14 +58,16 @@ class Ball {
   }
 
   render (ctx) {
-    // let scale = pers / (pers + this.z)
-    // let x = parseInt(Math.abs(w/2+(this.x-w/2)*scale));
-    // let y = parseInt(Math.abs(h/2+(this.y-h/2)*scale));
-    // let r = this.r*scale;
+    let scale = pers / (pers + this.currentZ)
+    let x = parseInt(Math.abs( width / 2+ (this.currentX - width / 2) * scale))
+    let y = parseInt(Math.abs( height / 2 + (this.currentY - height / 2) *scale))
+    let r = this.r * scale
+    // console.log(x, y, r)
     ctx.save()
     ctx.fillStyle = this.color
     ctx.beginPath()
-    ctx.arc(this.toX, this.toY, this.r, 0, Math.PI * 2, true)
+    // ctx.arc(this.toX, this.toY, this.r, 0, Math.PI * 2, true)
+    ctx.arc(x, y, r, 0, Math.PI * 2, true)
     ctx.closePath()
     ctx.fill()
     ctx.restore()
@@ -94,7 +94,7 @@ class Text {
     CanvasCtx.fillStyle = 'rgb(255, 255, 255)'
     CanvasCtx.fillRect(0, 0, width, height)
     CanvasCtx.fillStyle = 'rgb(0, 0, 0)'
-    CanvasCtx.font = "200px 微软雅黑"
+    CanvasCtx.font = "240px 微软雅黑"
     CanvasCtx.textAlign = 'center'
     CanvasCtx.fillText(this.text, width / 2, height / 2)
     CanvasCtx.restore()
@@ -127,3 +127,4 @@ init()
 
 function draw () {
 }
+
